@@ -2,6 +2,12 @@
   "name": "web2rag",
   "version": "1.0.0",
   "description": "Netlify edge function that fetches a URL and returns the body innerText",
+  "scripts": {
+    "start": "npx netlify dev"
+  },
+  "dependencies": {
+    "happy-dom": "20.10.6"
+  },
   "devDependencies": {
     "netlify": "^26.1.0"
   }

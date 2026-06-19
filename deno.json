@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "lib": ["deno.unstable", "dom", "dom.iterable", "esnext"]
+  },
   "lint": {
     "rules": {
       "exclude": ["no-import-prefix"]

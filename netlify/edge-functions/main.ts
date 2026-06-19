@@ -1,9 +1,7 @@
-import { Node, Window } from "https://esm.sh/happy-dom@20.10.6";
-import type { Document, HTMLElement } from "https://esm.sh/happy-dom@20.10.6";
+import { Window as HappyWindow, Node as HappyNode } from "happy-dom";
 import type { Config } from "@netlify/edge-functions";
-import type IHTMLElementTagNameMap from "https://esm.sh/happy-dom@20.10.6/lib/config/IHTMLElementTagNameMap.d.ts";
 
-const extractContent = (document: Document) => {
+const extractContent = (document: Document, Node: Node) => {
   const title = document.title?.trim();
 
   const marginStart = (text = "", n = 0) => {
@@ -60,10 +58,10 @@ const extractContent = (document: Document) => {
     return text1 + text2;
   };
 
-  const assertElem = <T extends keyof IHTMLElementTagNameMap = "main">(
+  const assertElem = <T extends keyof HTMLElementTagNameMap = "main">(
     node: Node,
     tag?: T,
-  ): "main" extends T ? HTMLElement : IHTMLElementTagNameMap[T] => {
+  ): "main" extends T ? HTMLElement : HTMLElementTagNameMap[T] => {
     if (
       node.nodeType === Node.ELEMENT_NODE &&
       (!tag || node.nodeName === tag.toUpperCase())
@@ -318,12 +316,15 @@ export default async function handler(req: Request) {
     );
   }
 
-  const window = new Window({ url: parsedUrl.toString() });
-  window.document.write(html);
+  const happyWindow = new HappyWindow({ url: parsedUrl.toString() });
+  happyWindow.document.write(html);
 
-  const { content } = extractContent(window.document);
+  const { content } = extractContent(
+    happyWindow.document,
+    HappyNode as unknown as Node,
+  );
 
-  await window.happyDOM.close();
+  await happyWindow.happyDOM.close();
 
   return new Response(content, {
     headers: { ...corsHeaders, "Content-Type": "text/plain; charset=utf-8" },
