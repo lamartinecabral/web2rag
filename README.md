@@ -4,7 +4,7 @@ A Netlify edge function that fetches any public web page and returns its content
 
 ## How it works
 
-Send a `GET` request with a `url` query parameter. The function fetches the target page, parses the HTML using [happy-dom](https://github.com/nicolo-ribaudo/happy-dom), extracts the `<main>` element (falling back to `<body>`), and converts the structure into readable Markdown:
+Send a `GET` request with a `url` query parameter. The function fetches the target page, parses the HTML using [happy-dom](https://github.com/capricorn86/happy-dom), extracts the `<main>` element (falling back to `<body>`), and converts the structure into readable Markdown:
 
 - Headings → `#` / `##` / … prefixes
 - Bold / italic / strikethrough / inline code → `**` / `_` / `~` / `` ` ``

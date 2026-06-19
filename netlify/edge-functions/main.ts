@@ -77,12 +77,7 @@ const extractContent = (document: Document) => {
   };
 
   const extractText = (node: Node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const textContent = node.textContent ?? "";
-      return textContent.trim() || textContent === " "
-        ? textContent.trim() + " "
-        : "";
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
       const isHidden = ((e) =>
         e.style.display === "none" ||
         e.style.visibility === "hidden" ||
@@ -128,7 +123,12 @@ const extractContent = (document: Document) => {
 
       let text = "";
       node.childNodes.forEach((child) => {
-        text = concat(text, extractText(child));
+        const childText =
+          child.nodeType === Node.TEXT_NODE
+            ? child.textContent
+            : extractText(child);
+        if ((!text || text.endsWith("\n")) && !childText.trim()) return;
+        text = concat(text, childText);
       });
 
       switch (node.nodeName) {
