@@ -6,6 +6,7 @@
     "start": "npx netlify dev"
   },
   "dependencies": {
+    "@lamartinecabral/extract-content": "github:lamartinecabral/extract-content",
     "happy-dom": "20.10.6"
   },
   "devDependencies": {
