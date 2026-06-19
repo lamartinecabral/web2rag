@@ -1,4 +1,4 @@
-import { Window as HappyWindow, Node as HappyNode } from "happy-dom";
+import { Window as HappyWindow } from "happy-dom";
 import type { Config } from "@netlify/edge-functions";
 import { extractContent } from "@lamartinecabral/extract-content";
 
@@ -89,10 +89,7 @@ export default async function handler(req: Request) {
   const happyWindow = new HappyWindow({ url: parsedUrl.toString() });
   happyWindow.document.write(html);
 
-  const { content } = extractContent(
-    happyWindow.document,
-    HappyNode as unknown as Node,
-  );
+  const { content } = extractContent(happyWindow.document);
 
   await happyWindow.happyDOM.close();
 
