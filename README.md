@@ -4,7 +4,7 @@ A Netlify edge function that fetches any public web page and returns its content
 
 ## How it works
 
-Send a `GET` request with a `url` query parameter. The function fetches the target page, parses the HTML using [happy-dom](https://github.com/capricorn86/happy-dom), extracts the `<main>` element (falling back to `<body>`), and converts the structure into readable Markdown:
+Send a `GET` request with a `url` query parameter. The function fetches the target page, builds a DOM with [happy-dom](https://github.com/capricorn86/happy-dom), then parses and extracts the content using [@lamartinecabral/extract-content](https://www.github.com/lamartinecabral/extract-content), converting the structure into readable Markdown:
 
 - Headings → `#` / `##` / … prefixes
 - Bold / italic / strikethrough / inline code → `**` / `_` / `~` / `` ` ``
@@ -30,11 +30,11 @@ The response body is `text/plain; charset=utf-8` Markdown text.
 
 ### Error responses
 
-| Status | Cause |
-| --- | --- |
-| 400 | Missing or invalid `url` parameter, or non-http/https scheme |
-| 405 | Non-GET request (other than OPTIONS pre-flight) |
-| 502 | Upstream fetch failed |
+| Status | Cause                                                        |
+| ------ | ------------------------------------------------------------ |
+| 400    | Missing or invalid `url` parameter, or non-http/https scheme |
+| 405    | Non-GET request (other than OPTIONS pre-flight)              |
+| 502    | Upstream fetch failed                                        |
 
 CORS headers (`Access-Control-Allow-Origin: *`) are included on all responses.
 
@@ -53,7 +53,8 @@ npx netlify dev
 ## Tech stack
 
 - [Netlify Edge Functions](https://docs.netlify.com/edge-functions/overview/) (Deno runtime)
-- [happy-dom](https://github.com/capricorn86/happy-dom) for server-side HTML parsing
+- [@lamartinecabral/extract-content](https://www.github.com/lamartinecabral/extract-content) for content parsing and Markdown extraction
+- [happy-dom](https://github.com/capricorn86/happy-dom) for server-side DOM support
 
 ## License
 
